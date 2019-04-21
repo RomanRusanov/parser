@@ -1,8 +1,6 @@
 package ru.rrusanov.parser;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import java.sql.ResultSet;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -28,7 +26,10 @@ public class DBService implements AutoCloseable {
      * Version for Logger.
      */
     private int version = 1;
-
+    /**
+     * The constructor.
+     * @param config Configuration(path to db, name file, url jdbc)
+     */
     public DBService(Config config) {
         this.initConnectionToSQLiteDB(config.getConfig());
         this.createTable();
@@ -95,7 +96,10 @@ public class DBService implements AutoCloseable {
             );
         }
     }
-
+    /**
+     * The method insert all article in passed collection in DB.
+     * @param articleList collection with articles.
+     */
     public void insertArticleListToDB(List<Article> articleList) {
         int numArticleInsertToDB = 0;
         for (Article article : articleList) {
@@ -103,7 +107,7 @@ public class DBService implements AutoCloseable {
                 "insert into vacancy (name, text, link) values (?, ?, ?)")
             ) {
                 String topic = article.getTopic();
-                if (this.existArticleNameInBD(article.getTopic())) {
+                if (this.isArticleExistInBD(article.getTopic())) {
                     continue;
                 }
                 ps.setString(1, topic);
@@ -129,8 +133,12 @@ public class DBService implements AutoCloseable {
         }
         LOG.info(String.format("ru.rrusanov.parser.Article(s) added to DB: %d", numArticleInsertToDB));
     }
-
-    public boolean existArticleNameInBD(String topic) {
+    /**
+     * The method check exist this article in DB.
+     * @param topic string with topic.
+     * @return If exist return true, otherwise false.
+     */
+    public boolean isArticleExistInBD(String topic) {
         boolean result = false;
         try (PreparedStatement ps = this.connection.prepareStatement(
                 "select name from vacancy;")) {

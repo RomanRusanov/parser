@@ -1,8 +1,6 @@
 package ru.rrusanov.parser;
-
 import java.io.InputStream;
 import java.util.Properties;
-
 /**
  * Class contain configuration connection to SQLite db, cron scheduler parameters.
  *
@@ -18,6 +16,7 @@ public class Config {
     /**
      * The default constructor.
      * Initiate connection.
+     * @param configFile string file name.
      */
     public Config(String configFile) {
         this.init(configFile);
@@ -32,6 +31,7 @@ public class Config {
     }
     /**
      * The method load properties from file example (app.properties).
+     * @param configFile string file name.
      */
     public void init(String configFile) {
         try (InputStream in = Config.class.getClassLoader().getResourceAsStream(configFile)) {

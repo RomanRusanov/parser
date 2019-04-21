@@ -1,9 +1,7 @@
 package ru.rrusanov.parser;
-
 import java.lang.reflect.Proxy;
 import java.sql.Connection;
 import java.sql.SQLException;
-
 /**
  * Class create connection with rollback all commits.
  * It is used for integration test.

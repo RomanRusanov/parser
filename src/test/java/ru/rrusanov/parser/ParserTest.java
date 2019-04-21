@@ -1,34 +1,30 @@
 package ru.rrusanov.parser;
-
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.Is;
-import org.jsoup.select.Elements;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import java.util.List;
-import static org.hamcrest.CoreMatchers.allOf;
-import static org.hamcrest.Matchers.lessThan;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.Matchers.greaterThan;
-
+/**
+ * The class check behavior Parse class.
+ */
 public class ParserTest {
-
+    /**
+     * The field contain instance of test class.
+     */
     private Parser parser;
-
+    /**
+     * The method execute before each test.
+     */
     @Before
     public void setUp() {
         this.parser = new Parser();
     }
-
+    /**
+     * The test check method getTextArticle.
+     */
     @Test
-    public void getAllArticleOnPage() {
-
-    }
-
-    @Test
-    public void getTextArticle() {
+    public void whenParseTopicThenReturnText() {
         this.parser = new Parser();
         String expect = "Здесь будут писаться все описания действий модераторов по исправлению и удалению топиков, "
                 + "а так же замечания участникам форума, согласно правилам форума \"Работа\".";
@@ -36,26 +32,11 @@ public class ParserTest {
                 + "soobshheniya-ot-moderatorov-zdes-vy-mozhete-uznat-prichiny-udaleniya-topikov");
         Assert.assertThat(result, Is.is(expect));
     }
-
-    @Test
-    public void parseCurrentPage() {
-        Parser parser = new Parser();
-        Elements allArticle = parser.getAllArticleOnPage("https://www.sql.ru/forum/job/2");
-        List<Article> listArticle = parser.parseCurrentPage(allArticle);
-        System.out.println(listArticle);
-    }
-
-    @Test
-    public void convertDate() {
-
-    }
-
-    @Test
-    public void getDocFromUrl() {
-    }
-
+    /**
+     * The test check method findMatchCharSequence.
+     */
     @Test()
-    public void findMatchCharSequence() {
+    public void whenStringContainMatchPatternThenReturnTrue() {
         String[] topicsNotMatch = {"java script", "javascript"};
         Assert.assertThat(this.parser.findMatchCharSequence("The javascript lang", topicsNotMatch),
                 Is.is(true));
@@ -65,15 +46,19 @@ public class ParserTest {
                 Is.is(false));
         Assert.assertThat(this.parser.findMatchCharSequence("shortStr", topicsNotMatch), Is.is(false));
     }
-
+    /**
+     * The test check method getMaxPageNumber.
+     */
     @Test
-    public void getMaxPageNumber() {
+    public void maxPageNumberMustBeGreater0AndLess3000() {
         int actual = this.parser.getMaxPageNumber("https://www.sql.ru/forum/job/");
         Assert.assertThat(actual, CoreMatchers.allOf(Matchers.greaterThan(0), Matchers.lessThan(3000)));
     }
-
+    /**
+     * The test check method compareStringDate.
+     */
     @Test
-    public void compareStringDate() {
+    public void whenFirstDateLessSecondDateThenReturnFalse() {
         this.parser = new Parser();
         String date1 = "01 янв 99, 12:00";
         String date2 = "01 янв 99, 12:01";
