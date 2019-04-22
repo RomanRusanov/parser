@@ -10,12 +10,14 @@ import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.PersistJobDataAfterExecution;
 import java.io.IOException;
+import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 /**
  * The class parse site http://www.sql.ru/forum/job and all next pages by current year. And collect Article
  * to collection if article contain string in (topicMatched array), and ignore topics that exist in
@@ -50,11 +52,11 @@ public class Parser implements Job {
     /**
      * The field contain short date format. That is necessary to correct parse date (сегодня, вчера).
      */
-    private final SimpleDateFormat formatShort = new SimpleDateFormat("dd MMM yy");
+    private SimpleDateFormat formatShort;
     /**
      * The field contain full date format. That is necessary to compare date.
      */
-    private final SimpleDateFormat formatFull = new SimpleDateFormat("dd MMM yy, HH:mm");
+    private SimpleDateFormat formatFull;
     /**
      * The field contain today date in string format.
      */
@@ -107,9 +109,35 @@ public class Parser implements Job {
         this.maxPageNumber = getMaxPageNumber("http://www.sql.ru/forum/job/");
         this.noMoreMatchedArticle = false;
         this.dToday = new Date();
+        this.formatFull = this.ruLocale("dd MMM yy, HH:mm");
+        this.formatShort = this.ruLocale("dd MMM yy");
         this.strToday = this.formatShort.format(dToday);
         this.dYesterday = new Date(System.currentTimeMillis() - 86400000);
         this.strYesterday = this.formatShort.format(dYesterday);
+    }
+    /**
+     * The method create new instance with ru locale SimpleDateFormat.
+     * @param format format string
+     * @return instance SimpleDateFormat
+     */
+    public SimpleDateFormat ruLocale(String format) {
+        Locale locale = new Locale("ru");
+        DateFormatSymbols dfs = DateFormatSymbols.getInstance(locale);
+        String[] months = {
+                "января", "февраля", "марта", "апреля", "мая", "июня",
+                "июля", "августа", "сентября", "октября", "ноября", "декабря"};
+        String[] shortMonths = {
+                "янв", "фев", "мар", "апр", "май", "июн",
+                "июл", "авг", "сен", "окт", "ноя", "дек"};
+        dfs.setMonths(months);
+        dfs.setShortMonths(shortMonths);
+        String[] weekdays = {"", "Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"};
+        String[] shortWeekdays = {"", "вс", "пн", "вт", "ср", "чт", "пт", "сб"};
+        dfs.setWeekdays(weekdays);
+        dfs.setShortWeekdays(shortWeekdays);
+        SimpleDateFormat sdf = new SimpleDateFormat(format, locale);
+        sdf.setDateFormatSymbols(dfs);
+        return sdf;
     }
     /**
      * The getter for field firstStart.

@@ -52,6 +52,7 @@
  *  public String convertDate(String date) The method check if string contain words(сегодня, вчера)
  *   then cut that words and insert date format.
  *  public boolean compareStringDate(String date1, String date2) Compare two strings.
+ *  public SimpleDateFormat ruLocale(String format) The method create new instance with ru locale SimpleDateFormat. K
  *
  *  ParserScheduler.java The class explain behavior for scheduler which the start method execute from Parser class.
  *   public void initScheduler() The method start scheduler.
