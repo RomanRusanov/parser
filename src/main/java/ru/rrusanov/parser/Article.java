@@ -114,7 +114,7 @@ public class Article {
     }
     /**
      * The method generate hashCode for instance.
-     * @return
+     * @return hashcode int value
      */
     @Override
     public int hashCode() {
