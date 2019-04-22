@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.com/RomanRusanov/parser.svg?branch=master)](https://travis-ci.com/RomanRusanov/parser)
+[![codecov](https://codecov.io/gh/RomanRusanov/parser/branch/master/graph/badge.svg)](https://codecov.io/gh/RomanRusanov/parser)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/9e26c7f6ed81442593f8338406542627)](https://www.codacy.com/app/RomanRusanov/parser?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=RomanRusanov/parser&amp;utm_campaign=Badge_Grade)
 # Парсер вакансий на sql.ru
 
 Приложение парсер должно заходить на сайт sql.ru в раздел работа и собирать Java вакансии.
