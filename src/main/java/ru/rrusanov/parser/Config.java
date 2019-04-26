@@ -37,7 +37,7 @@ public class Config {
         try (InputStream in = Config.class.getClassLoader().getResourceAsStream(configFile)) {
             config.load(in);
         } catch (Exception e) {
-            throw new IllegalStateException("ru.rrusanov.parser.Config from file: app.properties not loaded. " + e);
+            throw new IllegalStateException("Config from file: app.properties not loaded. " + e);
         }
     }
 }

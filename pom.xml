@@ -12,9 +12,50 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+    <profiles>
+        <profile>
+            <id>test</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <db.username>user</db.username>
+                <db.password>password</db.password>
+                <db.url>jdbc:sqlite:${basedir}/db/parser.db</db.url>
+                <db.driver>org.sqlite.JDBC</db.driver>
+            </properties>
+        </profile>
+        <profile>
+            <id>production</id>
+            <properties>
+                <db.username>user</db.username>
+                <db.password>password</db.password>
+                <db.url>jdbc:sqlite:${basedir}/db/parser.db</db.url>
+                <db.driver>org.sqlite.JDBC</db.driver>
+            </properties>
+        </profile>
+    </profiles>
 	<build>
         <plugins>
-
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>3.6.2</version>
+                <configuration>
+                    <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+                    <changeLogFile>${basedir}/db/master.xml</changeLogFile>
+                    <url>${db.url}</url>
+                    <driver>${db.driver}</driver>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>update</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <!--2.1. Manual Configuration build jar with dependency in to libs folder-->
 
             <!--<plugin>-->

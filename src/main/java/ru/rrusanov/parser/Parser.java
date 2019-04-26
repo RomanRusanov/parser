@@ -99,10 +99,6 @@ public class Parser implements Job {
      */
     private static final Logger LOG = LogManager.getLogger(Parser.class.getName());
     /**
-     * Version for Logger.
-     */
-    private int version = 1;
-    /**
      * Default constructor.
      */
     public Parser() {
@@ -229,7 +225,7 @@ public class Parser implements Job {
             currentPage = Jsoup.connect(url).get();
         } catch (IOException e) {
             LOG.error(String.format(
-                    "Error connect to site(%s). Version:%d%n Exception:%s", url, version, e.toString())
+                    "Error connect to site(%s).%n Exception:%s", url, e.toString())
             );
         }
         return currentPage;
@@ -390,14 +386,14 @@ public class Parser implements Job {
             d1 = this.formatFull.parse(date1);
         } catch (ParseException e) {
             LOG.error(String.format(
-                    "Error parse date(%s). Version:%d%n Exception:%s", date1, version, e.toString())
+                    "Error parse date(%s).%n Exception:%s", date1, e.toString())
             );
         }
         try {
             d2 = this.formatFull.parse(date2);
         } catch (ParseException e) {
             LOG.error(String.format(
-                    "Error parse date(%s). Version:%d%n Exception:%s", date2, version, e.toString())
+                    "Error parse date(%s).%n Exception:%s", date2, e.toString())
             );
         }
         return d1.compareTo(d2) > 0;

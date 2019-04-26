@@ -23,16 +23,11 @@ public class DBService implements AutoCloseable {
      */
     private static final Logger LOG = LogManager.getLogger(DBService.class.getName());
     /**
-     * Version for Logger.
-     */
-    private int version = 1;
-    /**
      * The constructor.
      * @param config Configuration(path to db, name file, url jdbc)
      */
     public DBService(Config config) {
         this.initConnectionToSQLiteDB(config.getConfig());
-        this.createTable();
     }
 
     /**
@@ -49,7 +44,7 @@ public class DBService implements AutoCloseable {
             this.connection = ConnectionRollback.create(DriverManager.getConnection(url));
             this.connection.setAutoCommit(false);
         } catch (SQLException e) {
-            LOG.error(String.format("Connection by passed url: %s version: %s", url, version));
+            LOG.error(String.format("Connection by passed url: %s", url));
         }
         return this.connection != null;
     }
@@ -68,34 +63,6 @@ public class DBService implements AutoCloseable {
         }
     }
 
-    /**
-     * The method create table vacancy in DB.
-     */
-    public void createTable() {
-        try (PreparedStatement ps = this.connection.prepareStatement(
-                "create table if not exists vacancy ("
-                        + "id integer primary key, "
-                        + "name varchar(255), "
-                        + "text text, "
-                        + "link text "
-                        + ");")
-        ) {
-            try {
-                ps.execute();
-                this.connection.commit();
-            } catch (SQLException e) {
-                LOG.error(String.format(
-                        "Error executing ps with create table. Version:%d%n SQL Exception:%s",
-                        version, e.toString())
-                );
-            }
-        } catch (SQLException e) {
-            LOG.error(String.format(
-                    "Error get ps from connection for create table. Version:%d%n SQL Exception:%s",
-                    version, e.toString())
-            );
-        }
-    }
     /**
      * The method insert all article in passed collection in DB.
      * @param articleList collection with articles.
@@ -121,13 +88,10 @@ public class DBService implements AutoCloseable {
                 } catch (SQLException e1) {
                     LOG.error(String.format(
                             "Error rollback transaction. After unsuccessfully insert to vacancy table. "
-                            + "Version:%d%n SQL Exception:%s", version, e1.toString())
+                            + "%n SQL Exception:%s", e1.toString())
                     );
                 }
-                LOG.error(String.format(
-                        "Error insert list in vacancy table. Version:%d%n SQL Exception:%s",
-                        version, e.toString())
-                );
+                LOG.error(String.format("Error insert list in vacancy table.%n SQL Exception:%s", e.toString()));
 
             }
         }
@@ -149,10 +113,10 @@ public class DBService implements AutoCloseable {
                     }
                 }
             } catch (Exception e) {
-                LOG.error("Result set (get data from vacancy table)", version);
+                LOG.error("Result set (get data from vacancy table)");
             }
         } catch (SQLException e) {
-            LOG.error("SQL query (select all articles names from vacancy table)", version);
+            LOG.error("SQL query (select all articles names from vacancy table)");
         }
         return result;
     }
