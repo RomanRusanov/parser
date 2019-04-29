@@ -7,8 +7,9 @@ before_install:
   - export TZ=Europe/Moscow
   - date
 # Sqlite
-ActiveRecord::Base.establish_connection :adapter => 'sqlite3',
-:database => './db/parser.db'
+  adapter: sqlite3
+  database: ":./db/parser:"
+  timeout: 500
 # после выполнения сборки запустить скрипт, который будет собирать статистику по JaCoCo
 # Здесь используется сторонни сервис https://codecov.io/
 after_success:
