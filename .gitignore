@@ -18,3 +18,5 @@
 *.iml
 out
 gen
+target\
+*.db

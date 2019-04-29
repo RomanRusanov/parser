@@ -95,7 +95,7 @@ public class DBService implements AutoCloseable {
 
             }
         }
-        LOG.info(String.format("ru.rrusanov.parser.Article(s) added to DB: %d", numArticleInsertToDB));
+        LOG.info(String.format("Article(s) added to DB: %d", numArticleInsertToDB));
     }
     /**
      * The method check exist this article in DB.
