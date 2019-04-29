@@ -7,8 +7,9 @@ before_install:
   - export TZ=Europe/Moscow
   - date
 # Sqlite
+test:
   adapter: sqlite3
-  database: ":./db/parser:"
+  database: ":./db/parser.db:"
   timeout: 500
 # после выполнения сборки запустить скрипт, который будет собирать статистику по JaCoCo
 # Здесь используется сторонни сервис https://codecov.io/
