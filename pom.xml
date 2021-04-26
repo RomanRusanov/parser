@@ -56,44 +56,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--2.1. Manual Configuration build jar with dependency in to libs folder-->
-
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-dependency-plugin</artifactId>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>copy-dependencies</id>-->
-                        <!--<phase>prepare-package</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>copy-dependencies</goal>-->
-                        <!--</goals>-->
-                        <!--<configuration>-->
-                            <!--<outputDirectory>-->
-                                <!--${project.build.directory}/libs-->
-                            <!--</outputDirectory>-->
-                        <!--</configuration>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-            <!--</plugin>-->
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-jar-plugin</artifactId>-->
-                <!--<configuration>-->
-                    <!--<archive>-->
-                        <!--<manifest>-->
-                            <!--<addClasspath>true</addClasspath>-->
-                            <!--<classpathPrefix>libs/</classpathPrefix>-->
-                            <!--<mainClass>-->
-                                <!--ru.rrusanov.parser.StartParser-->
-                            <!--</mainClass>-->
-                        <!--</manifest>-->
-                    <!--</archive>-->
-                <!--</configuration>-->
-            <!--</plugin>-->
-
-            <!--2.2. Apache Maven Assembly Plugin build jar and all dependency store in jar-->
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -137,25 +99,6 @@
                         </configuration>
                         <goals>
                             <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.2</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>report</goal>
                         </goals>
                     </execution>
                 </executions>

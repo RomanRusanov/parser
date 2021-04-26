@@ -18,5 +18,6 @@
 *.iml
 out
 gen
-target\
+\target
 *.db
+/identifier.sqlite
