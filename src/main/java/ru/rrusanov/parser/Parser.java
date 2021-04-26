@@ -42,21 +42,9 @@ public class Parser implements Job {
      */
     private final String[] topicsMatch = {"java", "Java", "JAVA"};
     /**
-     * The field contain today date. That is necessary to correct parse date (сегодня, 13:00).
-     */
-    private final Date dToday;
-    /**
-     * The field contain yesterday date. That is necessary to correct parse date (вчера, 18:39).
-     */
-    private final Date dYesterday;
-    /**
-     * The field contain short date format. That is necessary to correct parse date (сегодня, вчера).
-     */
-    private SimpleDateFormat formatShort;
-    /**
      * The field contain full date format. That is necessary to compare date.
      */
-    private SimpleDateFormat formatFull;
+    private final SimpleDateFormat formatFull;
     /**
      * The field contain today date in string format.
      */
@@ -91,10 +79,6 @@ public class Parser implements Job {
      */
     private String configFile;
     /**
-     * The field contain instance that provide DB connection, and insert data to DB.
-     */
-    private DBService dbService;
-    /**
      * Logger.
      */
     private static final Logger LOG = LogManager.getLogger(Parser.class.getName());
@@ -104,12 +88,12 @@ public class Parser implements Job {
     public Parser() {
         this.maxPageNumber = getMaxPageNumber("http://www.sql.ru/forum/job/");
         this.noMoreMatchedArticle = false;
-        this.dToday = new Date();
+        Date dToday = new Date();
         this.formatFull = this.ruLocale("dd MMM yy, HH:mm");
-        this.formatShort = this.ruLocale("dd MMM yy");
-        this.strToday = this.formatShort.format(dToday);
-        this.dYesterday = new Date(System.currentTimeMillis() - 86400000);
-        this.strYesterday = this.formatShort.format(dYesterday);
+        SimpleDateFormat formatShort = this.ruLocale("dd MMM yy");
+        this.strToday = formatShort.format(dToday);
+        Date dYesterday = new Date(System.currentTimeMillis() - 86400000);
+        this.strYesterday = formatShort.format(dYesterday);
     }
     /**
      * The method create new instance with ru locale SimpleDateFormat.
@@ -207,8 +191,11 @@ public class Parser implements Job {
             this.allMatchedArticle.addAll(listArticleOnCurrentPage);
             LOG.info(String.format("Page http://www.sql.ru/forum/job/%d", i));
         }
-        this.dbService = new DBService(new Config(this.configFile));
-        this.dbService.insertArticleListToDB(this.allMatchedArticle);
+        /**
+         * The field contain instance that provide DB connection, and insert data to DB.
+         */
+        DBService dbService = new DBService(new Config(this.configFile));
+        dbService.insertArticleListToDB(this.allMatchedArticle);
         this.noMoreMatchedArticle = false;
         dataMap.put("firstStart", false);
         dataMap.put("lastArticleDate", this.lastArticleDate);
