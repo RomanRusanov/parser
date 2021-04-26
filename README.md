@@ -1,18 +1,19 @@
 [![Build Status](https://travis-ci.com/RomanRusanov/parser.svg?branch=master)](https://travis-ci.com/RomanRusanov/parser)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9e26c7f6ed81442593f8338406542627)](https://www.codacy.com/app/RomanRusanov/parser?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=RomanRusanov/parser&amp;utm_campaign=Badge_Grade)
-# Парсер вакансий sql.ru
+
+#Парсер вакансий sql.ru
 
 Приложение парсер берет информацию с сайта sql.ru раздел работа и собирает Java вакансии.
 Учитывая дубликаты. Вакансии с одинаковым именем считаются дубликатами.
 Если это первый запуск, то нужно собрать все объявления с начало года.
 
-### ScreenShot
+##ScreenShot
 
 Собранные данные в таблицу vacany ```db/parser.db```
 
 ![image](screenShots/Screenshot_1.png)
 
-# Конфигурирование:
+##Конфигурирование
 
 ```java -jar parser-1.0 app.properties```
 
